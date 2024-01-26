@@ -1,0 +1,311 @@
+
+<ion-header class="ion-no-border" style="">
+  <ion-toolbar class="ion-no-border ion-no-padding ion-no-margin" style="padding: 5px 10px; display: flex; justify-content: space-between; align-items: center;" >
+
+        <p-avatar label="P" routerLink="../profile" styleClass="mr-2" [style]="{ 'background-color': randomColor, color: '#ffffff' }"  shape="circle"></p-avatar>
+
+        <span style="font-weight: bold; font-size: 17px; margin-left: 20px;">LostAndFound</span>
+
+        <i class="pi pi-sign-out" slot="end" (click)="logout()" style="font-size: 1rem; cursor: pointer;"></i>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollY="true" class="ion-no-padding ion-no-margin">
+  <div class="search">
+    <ion-item lines="none">
+      <ion-input placeholder="Rechercher un object" (ionInput)="search($event)"></ion-input>
+      <ion-icon name="search-outline" slot="start"></ion-icon>
+
+
+    </ion-item>
+<div style="display: flex;justify-content: space-between;">
+  <div style="display: flex;justify-content: center;align-items: center;">
+    <h2 style="font-weight: bolder;" class="ion-padding" >Fil d'actualité</h2>
+
+  </div>
+  <div class="ion-padding" style="display: flex;justify-content: center;align-items: center;">
+    <i class="pi pi-filter-slash" id="top-center-filter" style="font-size: 1.5rem"></i>
+    <ion-popover  trigger="top-center-filter" side="top" class="ion-no-margin ion-no-padding" alignment="center">
+      <ng-template>
+        <ion-content class="ion-padding">
+          <ion-list>
+            <ion-radio-group value=""  (ionChange)="handleChange($event)">
+              <ion-item>
+                <ion-radio value="tout" justify="space-between">Tout</ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-radio value="true" justify="space-between">Object trouvé</ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-radio value="false" justify="space-between">Oject non trouvé</ion-radio>
+              </ion-item>
+            </ion-radio-group>
+
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+  </div>
+</div>
+  </div>
+
+  <ion-row  style="display: flex; justify-content: center;align-items: center;height: 100%;" *ngIf="submitted">
+  <div style="display: block;">
+    <div style="width: 100%;display: flex;justify-content: center;">
+      <ion-spinner></ion-spinner>
+    </div>
+    <p>Veuillez patienter quelques instants...</p>
+  </div>
+  </ion-row>
+    <ion-row  style="display: flex; justify-content: center;align-items: center;height: 100%;" *ngIf=" !submitted && data.length === 0">
+      <p>Aucun Object Trouvé</p>
+    </ion-row>
+    <ion-grid *ngIf="!submitted && data.length > 0">
+
+      <ion-row class="favorite-items"  >
+        <ion-col size="12" class="ion-text-left ion-no-margin ion-no-padding" *ngFor="let object of data" style="margin-bottom: 15px;" >
+          <ion-card class="ion-no-margin" >
+            <div style="display: flex; padding: 6px 4px;justify-content: space-between; align-items: center;" >
+              <div style="display: flex;" (click)="redirect(object.userId._id)" >
+                <p-avatar label="{{object.userId.userName[0] | uppercase}}" [style]="{ 'background-color': randomColor, color: '#ffffff' }" styleClass="mr-2"  shape="circle"></p-avatar>
+                <div style="margin-left: 5px !important;">
+                  <p class="ion-no-margin ion-no-padding" style="font-weight: 500;">{{object.userId.firstName}}</p>
+
+                  <h6 class="ion-no-margin ion-no-padding">
+                    {{object.placeId?.floor}}, {{object.placeId?.description}}
+                  </h6>
+
+                </div>
+              </div>
+
+
+
+                <!-- <ion-toggle #state="ngModel" *ngIf="role === 'true' || userId === object.userId._id" (ionChange)="changeState(object, state.value)" [(ngModel)]="object.isFound" ></ion-toggle> -->
+
+              <!-- <ion-button *ngIf="role === 'true' || userId === object.userId._id" (click)="changeState(object)" size="small">
+                {{object.isFound? "Trouvé" : "Non trouvé"}}
+              </ion-button> -->
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <ion-badge
+                  style="padding: 6px 10px;"
+                  slot="start" color='{{object.isFound? "success" : "primary"}}'
+                  (click)="changeState(object)"
+                >
+                  {{object.isFound? "Trouvé" : "Non trouvé"}}
+                </ion-badge>
+
+
+                <!-- <ion-badge style="padding: 6px 10px;" slot="start" color='{{object.isFound? "success" : "primary"}}' >{{object.isFound? "Trouvé" : "Non trouvé"}}</ion-badge> -->
+
+                <i class="pi pi-ellipsis-v" id="top-center-{{object._id}}" style="color: #708090;margin-left: 15px;"></i>
+
+              </div>
+              <ion-popover  trigger="top-center-{{object._id}}" side="top" class="ion-no-margin ion-no-padding" alignment="center">
+                <ng-template>
+                  <ion-content class="ion-padding">
+                    <ion-list>
+                      <ion-item (click)="details(object._id)">
+                        <ion-icon aria-hidden="true"  name="eye" slot="start"></ion-icon>
+                        <ion-label>Details</ion-label>
+                      </ion-item>
+                    </ion-list>
+                    <ion-list *ngIf="role === 'true' || temp === object.userId._id">
+                      <ion-item (click)="edit(object)">
+                        <ion-icon aria-hidden="true" name="pencil"  slot="start"></ion-icon>
+                        <ion-label>Modifier</ion-label>
+                      </ion-item>
+
+                      <ion-item (click)="delete(object)">
+                        <ion-icon aria-hidden="true" name="trash" slot="start"></ion-icon>
+                        <ion-label>Supprimer</ion-label>
+                        <ion-spinner *ngIf="deleted" slot="end"></ion-spinner>
+
+                      </ion-item>
+
+                    </ion-list>
+                  </ion-content>
+                </ng-template>
+              </ion-popover>
+            </div>
+            <div style="cursor: pointer;" routerLink="../details/{{object._id}}">
+
+              <img alt="images" src="{{object.picture}}" />
+
+
+              <ion-card-content class="ion-margin ion-no-padding">
+                <div style="font-weight: 600; font-size: 14px;">
+                  {{object.name}}
+                </div>
+                <div style="padding-top: 10px;">
+                  {{object.description}}
+                </div>
+                <div style="padding-top: 10px;">
+                  <i>{{object.dateDiff}}</i>
+                </div>
+              </ion-card-content>
+            </div>
+            <div>
+            </div>
+
+          </ion-card>
+
+        </ion-col >
+
+
+
+      </ion-row>
+    </ion-grid>
+
+
+
+
+</ion-content>
+
+<p-dialog header="Modifier" [(visible)]="objectDialog" >
+  <form [formGroup]="formulaire" (ngSubmit)="modifier()">
+
+    <div class="login-form ion-padding">
+      <div style="display: flex;justify-content: center;">
+
+        <p-avatar *ngIf="temporaile.picture" image="{{picture?.value}}" styleClass="mr-2" size="xlarge" shape="circle"></p-avatar>
+
+      </div>
+      <div class="form-input">
+        <ion-item class="ion-no-padding">
+          <ion-input
+            label="Image"
+            formControlName="picture"
+            class="custom-input ion-no-padding"
+            label-placement="stacked"
+            [(ngModel)]="temporaile.picture"
+          >
+            <ion-icon
+              slot="start"
+              name="person-outline"
+              aria-hidden="true"
+            ></ion-icon>
+          </ion-input>
+
+        </ion-item>
+        <div *ngIf="picture.touched && picture.invalid" class="erreur">
+          <div *ngIf="picture?.errors.required">
+            L'image est requise.
+          </div>
+        </div>
+      </div>
+        <div class="form-input">
+          <ion-item class="ion-no-padding">
+            <ion-input
+              label="Noms"
+              formControlName="name"
+              class="custom-input ion-no-padding"
+              label-placement="stacked"
+              [(ngModel)]="temporaile.name"
+            >
+              <ion-icon
+                slot="start"
+                name="person-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </ion-input>
+
+          </ion-item>
+          <div *ngIf="name.touched && name.invalid" class="erreur">
+            <div *ngIf="name?.errors.required">
+              Le noms de l'object est requis.
+            </div>
+          </div>
+        </div>
+        <div class="form-input">
+          <ion-item class="ion-no-padding">
+            <ion-input
+              label="Description"
+              formControlName="description"
+              class="custom-input ion-no-padding"
+              label-placement="stacked"
+              [(ngModel)]="temporaile.description"
+            >
+              <ion-icon
+                slot="start"
+                name="person-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </ion-input>
+
+          </ion-item>
+          <div *ngIf="description.touched && description.invalid" class="erreur">
+            <div *ngIf="description?.errors.required">
+              La description est requise.
+            </div>
+          </div>
+        </div>
+        <div class="form-input" style="display: none;">
+          <ion-item class="ion-no-padding">
+            <ion-input
+              label="userId"
+              formControlName="userId"
+              class="custom-input ion-no-padding"
+              label-placement="stacked"
+              [(ngModel)]="temporaile.userId"
+            >
+              <ion-icon
+                slot="start"
+                name="person-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </ion-input>
+
+          </ion-item>
+
+        </div>
+
+        <div class="form-input" style="display: none;">
+          <ion-item class="ion-no-padding">
+            <ion-input
+              formControlName="_id"
+              class="custom-input"
+              label-placement="stacked"
+              placeholder=""
+              [(ngModel)]="temporaile._id"
+            >
+              <ion-icon
+                slot="start"
+                name="lock-closed-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </ion-input>
+
+          </ion-item>
+
+        </div>
+        <div class="form-input" style="display: none;">
+          <ion-item class="ion-no-padding">
+            <ion-input
+              label="placeId"
+              formControlName="placeId"
+              class="custom-input"
+              label-placement="stacked"
+              placeholder=""
+              [(ngModel)]="temporaile.placeId"
+            >
+              <ion-icon
+                slot="start"
+                name="lock-closed-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </ion-input>
+
+          </ion-item>
+
+        </div>
+
+        <div  style="width: 100%;display: flex;justify-content: end;margin-top: 12px;">
+          <ion-button type="submit" slot="end" [disabled]="state" size="small">Enregistrer <i class="pi pi-spin pi-spinner" *ngIf="state" ></i> </ion-button>
+
+        </div>
+
+    </div>
+
+  </form>
+</p-dialog>

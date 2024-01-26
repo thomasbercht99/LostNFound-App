@@ -1,0 +1,97 @@
+<ion-header >
+  <ion-toolbar >
+    <div style="display: flex;justify-content: space-between;">
+      <ion-buttons slot="start">
+        <ion-button color="primary" class="backbtn" (click)="forward()" routerDirection="back">
+          <img src="../../assets/back-dark.svg" />
+        </ion-button>
+
+      </ion-buttons>
+
+      <div class="" style="font-weight: bolder;display: flex; justify-content: center;align-items: center;">
+        Localisation
+      </div>
+      <div>
+
+      </div>
+    </div>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollY="true" class="ion-no-padding">
+
+
+    <ion-row id="map"  class="ion-no-margin ion-no-padding" style="height: 50%;width: 100%;margin-bottom: 20px;">
+      <div id="map" style="width: 100%;height: 100%;">
+
+      </div>
+    </ion-row>
+    <ion-row class="ion-padding" style="width: 100%;">
+      Localisation: {{localisation}}
+
+      <ion-list style="width: 100%;">
+
+      <div class="form-input">
+        <ion-item class="ion-no-padding">
+          <ion-label >
+            Etage:
+          </ion-label >
+
+          <ion-select label="Etage" required="true" [(ngModel)]="form.floor" interface="action-sheet" placeholder="Selectionner l'etage" label-placement="floating" fill="solid"
+          #noms="ngModel"
+          [ngClass]="{'ng-dirty': (noms.invalid && formsubmitted) || (noms.dirty && noms.invalid)}"
+
+          >
+            <ion-select-option value="ss">ss</ion-select-option>
+            <ion-select-option value="rdc">rdc</ion-select-option>
+            <ion-select-option value="1">1</ion-select-option>
+            <ion-select-option value="2">2</ion-select-option>
+            <ion-select-option value="3">3</ion-select-option>
+
+          </ion-select>
+        </ion-item>
+        <small class="erreur" *ngIf="(noms.invalid && formsubmitted )|| (noms.dirty && noms.invalid)">L'etage  est requis.</small>
+
+        <!-- <div *ngIf="form.floor.touched && form.floor.invalid" class="erreur">
+          <div *ngIf="form.floor?.errors.required">
+            Le niveau  est requis.
+          </div>
+        </div> -->
+      </div>
+      <div class="form-input">
+        <ion-item class="ion-no-padding">
+          <ion-input
+            label="Classe"
+            [(ngModel)]="form.description"
+            class="custom-input ion-no-padding"
+            label-placement="stacked"
+            required="true"
+            #description="ngModel"
+            [ngClass]="{'ng-dirty': (description.invalid && formsubmitted) || (description.dirty && description.invalid)}"
+
+          >
+
+          </ion-input>
+
+        </ion-item>
+        <small class="erreur" *ngIf="(description.invalid && formsubmitted )|| (description.dirty && description.invalid)"> La classe  est requise.</small>
+
+        <!-- <div *ngIf="form.description.touched && form.description.invalid" class="erreur">
+          <div *ngIf="form.description?.errors.required">
+            La description  est requise.
+          </div>
+        </div> -->
+      </div>
+    </ion-list>
+
+
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="block" [disabled]="submitted" (click)="enregistrer()">Confirmer <i class="pi pi-spin pi-spinner" *ngIf="submitted" ></i></ion-button>
+
+      </ion-col>
+
+    </ion-row>
+</ion-content>

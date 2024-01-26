@@ -1,0 +1,291 @@
+<ion-header >
+  <ion-toolbar >
+    <div style="">
+
+      <div class="" style="font-weight: bolder;display: flex;justify-content: center;align-items: center;">
+        Profile
+      </div>
+      <div>
+
+      </div>
+    </div>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-no-padding" >
+  <ion-row  style="display: flex; justify-content: center;align-items: center;height: 100%;" *ngIf="submitted">
+    <div style="display: block;">
+      <div style="width: 100%;display: flex;justify-content: center;">
+        <ion-spinner></ion-spinner>
+      </div>
+      <p>Veuillez patienter quelques instants...</p>
+    </div>
+    </ion-row>
+  <ion-grid *ngIf="!submitted">
+    <ion-row >
+      <ion-col size="12" style="align-items: center;display: flex;">
+        <ion-row>
+          <ion-col size="4" class="thumbnail">
+
+              <p-avatar label="{{project?.user?.userName[0] | uppercase}}" [style]="{ 'background-color': randomColor, color: '#ffffff' }" styleClass="mr-2" size="xlarge"  shape="circle"></p-avatar>
+
+          </ion-col>
+          <ion-col size="7"  style="text-align: start;display: block;text-wrap: nowrap;">
+            <div>
+             <div style="display: block;">
+               <div>
+                 <ion-label >
+                   {{project?.user?.firstName}}  {{project?.user?.lastName}}
+
+                  </ion-label>
+               </div>
+               <div>
+
+                 <ion-text color="medium" class=" info">({{project?.user?.userName}})</ion-text>
+
+               </div>
+               <div>
+
+                <ion-text color="medium" class=" info">({{project?.user?.email}})</ion-text>
+
+              </div>
+             </div>
+            </div>
+
+           </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col size="12" style="align-items: center;justify-content: center;display: flex;text-align: center;">
+        <ion-row>
+          <!-- <ion-col size="6" class="ion-text-center">
+            <ion-label>
+              <strong>81</strong>
+              <p>
+                <ion-text color="medium" style="text-wrap: nowrap;">Object Retrouvé(s)</ion-text>
+              </p>
+            </ion-label>
+          </ion-col> -->
+          <!-- <ion-col size="6" class="ion-text-center" style="text-align: center;">
+            <ion-label style="width: 100%;text-align: center;">
+              <strong>
+                {{project?.objects?.length || 0}}
+              </strong>
+              <p style="text-wrap: nowrap;">
+                <ion-text color="medium" style="text-wrap: nowrap;">Object Trouvé(s)</ion-text>
+              </p>
+            </ion-label>
+          </ion-col> -->
+
+        </ion-row>
+
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row class="marginTop">
+
+      <ion-col size="12" >
+          <ion-button mode="ios" (click)="edit(project?.user)" expand="block" size="small" fill="outline" color="medium">
+            <ion-text color="dark">Modifier</ion-text>
+          </ion-button>
+
+      </ion-col>
+    </ion-row>
+
+    <!-- <ion-row class="images" >
+      <ion-segment mode="md" [value]="buttonValue">
+        <ion-segment-button [value]="item?.value" *ngFor="let item of buttonItems">
+          <ion-icon [name]="buttonValue === item?.value ? item?.icon : item?.icon + '-outline'"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-row> -->
+  </ion-grid>
+  <ion-grid class="ion-no-margin ion-no-padding">
+    <ion-row class="ion-no-margin ion-no-padding">
+      <ion-col class="ion-no-margin ion-no-padding" style="padding-left: 4px;padding-right: 4px;margin-bottom: 4px" size="6" size-md="6" size-lg="3" *ngFor="let object of project?.objects" >
+        <ion-card class="ion-no-margin" >
+
+          <div style="cursor: pointer;" routerLink="../details/{{object._id}}">
+
+            <!-- <img  width="100%"  alt="images" src="{{object.picture}}" /> -->
+            <div
+            [style.background-image]="'url('+object.picture+')'"
+            [style.background-size]="'200px 100%'"
+            [style.background-repeat]="'no-repeat'"
+            style="height: 200px;"
+            >
+
+            </div>
+
+            <ion-card-content class="ion-no.-margin ion-no-padding" style="padding: 5px 3px;">
+              <div style="font-weight: 600; font-size: 14px; padding-bottom: 5px;">
+                {{object.name}}
+              </div>
+
+              {{object?.description?.length > 25 ? object?.description.slice(0, 25)+"..." : object?.description}}
+            </ion-card-content>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: center;margin-bottom: 5px;">
+            <ion-badge
+              style="padding: 6px 10px;"
+              slot="start" color='{{object.isFound? "success" : "primary"}}'
+              (click)="changeState(object)"
+            >
+              {{object.isFound? "Trouvé" : "Non trouvé"}}
+            </ion-badge>
+          </div>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+<p-dialog header="Modifier" [(visible)]="userDialog" >
+  <form [formGroup]="formulaires" (ngSubmit)="modifier()">
+
+    <div class="login-form ion-padding">
+        <div class="form-input">
+          <ion-item class="ion-no-padding">
+            <ion-input
+              label="Noms Utilisateur"
+              formControlName="userName"
+              class="custom-input ion-no-padding"
+              label-placement="stacked"
+              [(ngModel)]="temporaile.userName"
+            >
+              <ion-icon
+                slot="start"
+                name="person-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </ion-input>
+
+          </ion-item>
+          <div *ngIf="userName.touched && userName.invalid" class="erreur">
+            <div *ngIf="userName?.errors.required">
+              Le noms d'utilisateur est requis.
+            </div>
+          </div>
+        </div>
+        <div class="form-input">
+          <ion-item class="ion-no-padding">
+            <ion-input
+              label="Prenoms"
+              formControlName="firstName"
+              class="custom-input ion-no-padding"
+              label-placement="stacked"
+              [(ngModel)]="temporaile.firstName"
+            >
+              <ion-icon
+                slot="start"
+                name="person-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </ion-input>
+
+          </ion-item>
+          <div *ngIf="firstName.touched && firstName.invalid" class="erreur">
+            <div *ngIf="firstName?.errors.required">
+              Le prenoms est requis.
+            </div>
+          </div>
+        </div>
+        <div class="form-input">
+          <ion-item class="ion-no-padding">
+            <ion-input
+              label="Noms"
+              formControlName="lastName"
+              class="custom-input ion-no-padding"
+              label-placement="stacked"
+              [(ngModel)]="temporaile.lastName"
+            >
+              <ion-icon
+                slot="start"
+                name="person-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </ion-input>
+
+          </ion-item>
+          <div *ngIf="lastName.touched && lastName.invalid" class="erreur">
+            <div *ngIf="lastName?.errors.required">
+              Le noms est requis.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-input" style="display: none;">
+          <ion-item class="ion-no-padding">
+            <ion-input
+              formControlName="_id"
+              class="custom-input"
+              label-placement="stacked"
+              placeholder=""
+              [(ngModel)]="temporaile._id"
+            >
+              <ion-icon
+                slot="start"
+                name="lock-closed-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </ion-input>
+
+          </ion-item>
+
+        </div>
+        <div class="form-input">
+          <ion-item class="ion-no-padding">
+            <ion-input
+              label="Email"
+              formControlName="email"
+              class="custom-input"
+              label-placement="stacked"
+              placeholder=""
+              [(ngModel)]="temporaile.email"
+            >
+              <ion-icon
+                slot="start"
+                name="lock-closed-outline"
+                aria-hidden="true"
+              ></ion-icon>
+            </ion-input>
+
+          </ion-item>
+          <div *ngIf="email.touched && email.invalid" class="erreur">
+            <div *ngIf="email?.errors.required">
+              Le mots de passe est requis.
+            </div>
+            <div *ngIf="email?.errors.valid">
+              L'email n'est pas valide.
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="form-input">
+          <ion-item class="ion-no-padding">
+            <ion-item class="ion-no-padding">
+              <ion-toggle     slot="end"            formControlName="admin"
+              [(ngModel)]="temporaile.admin"
+              >Est admin ?</ion-toggle>
+            </ion-item>
+
+          </ion-item>
+
+        </div>
+
+
+        <div  style="width: 100%;display: flex;justify-content: end;margin-top: 12px;">
+          <ion-button type="submit" slot="end" [disabled]="state" size="small">Enregistrer <i class="pi pi-spin pi-spinner" *ngIf="state" ></i> </ion-button>
+
+        </div>
+
+    </div>
+
+  </form>
+</p-dialog>

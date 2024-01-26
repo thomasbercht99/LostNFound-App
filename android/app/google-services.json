@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "702456143909",
+    "project_id": "lostfoundtravel-d96e7",
+    "storage_bucket": "lostfoundtravel-d96e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702456143909:android:f4ab0a47c199ce61ecdfcc",
+        "android_client_info": {
+          "package_name": "com.app.lostFound"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAcLVVGYeCwSwvCJmYMDUnBeRa5VVa430"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

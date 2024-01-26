@@ -1,0 +1,60 @@
+ion-content{
+  --background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1)), url("/assets/bg.jpg") no-repeat center center /cover;
+}
+.login-section{
+  min-height: 44vh;
+  width: 100%;
+  background: #fff;
+  right: 0;
+ left: 0;
+ bottom: 0;
+ position: fixed;
+ border-top-right-radius: 45px;
+ border-top-left-radius: 45px;
+ margin: auto;
+ .heading{
+  text-align: start;
+  h1{
+    font-size: 1.6rem;
+    font-weight: bolder;
+  }
+  p{
+    font-size: 0.7rem;
+    font-weight: normal;
+
+  }
+
+ }
+ .login-form{
+   .form-input{
+     position: relative;
+     margin-bottom: 10px;
+
+
+   }
+ }
+ .action{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ }
+}
+
+a{
+  text-decoration: none;
+}
+
+
+#entete{
+  color: #fff;
+  text-align: center;
+  font-weight: bolder;
+  font-size: x-large;
+  h1{
+    font-size: 2rem;
+  }
+}
+
+.erreur {
+  color: red;
+}

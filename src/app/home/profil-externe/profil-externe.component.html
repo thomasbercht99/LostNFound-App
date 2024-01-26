@@ -1,0 +1,152 @@
+
+
+<ion-header >
+  <ion-toolbar >
+    <div style="display: flex;justify-content: space-between;">
+      <ion-buttons slot="start">
+        <ion-button color="primary" class="backbtn" (click)="forward()" routerDirection="back">
+          <img src="../../assets/back-dark.svg" />
+        </ion-button>
+
+      </ion-buttons>
+
+      <div class="" style="font-weight: bolder;display: flex;justify-content: center;align-items: center;">
+        Profile
+      </div>
+      <div>
+
+      </div>
+    </div>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-no-padding">
+  <ion-row  style="display: flex; justify-content: center;align-items: center;height: 100%;" *ngIf="submitted">
+    <div style="display: block;">
+      <div style="width: 100%;display: flex;justify-content: center;">
+        <ion-spinner></ion-spinner>
+      </div>
+      <p>Veuillez patienter quelques instants...</p>
+    </div>
+    </ion-row>
+  <ion-grid *ngIf="!submitted">
+    <ion-row >
+      <ion-col size="12" style="align-items: center;display: flex;">
+        <ion-row style="display: flex;">
+          <ion-col size="3" class="thumbnail">
+
+              <p-avatar label="{{project?.user?.userName[0] | uppercase}}" [style]="{ 'background-color': randomColor, color: '#ffffff' }"  styleClass="mr-2" size="xlarge"  shape="circle"></p-avatar>
+
+          </ion-col>
+          <ion-col size="9"   style="text-align: start;display: block;text-wrap: nowrap;">
+            <div>
+             <div style="display: block; margin-left: 15px;">
+               <div>
+                 <ion-label style="display: flex; align-items: center;" >
+                   {{project?.user?.firstName}}  {{project?.user?.lastName}}
+                   <ion-badge
+                      style="margin-left: 15px; padding-left: 10px; padding-right: 10px;"
+                      color='{{project.user.isDesactivated? "success" : "primary"}}'
+                      *ngIf="role === 'true'"
+                    >
+
+                {{project.user.isDesactivated? " Non actif " : " Actif "}}
+                    </ion-badge>
+                  </ion-label>
+               </div>
+               <div style="display: flex;justify-content: space-between;">
+                  <ion-text color="medium" class=" info">({{project?.user?.userName}})</ion-text>
+
+
+               </div>
+               <div>
+
+                <ion-text color="medium" class=" info">({{project?.user?.email}})</ion-text>
+
+              </div>
+             </div>
+            </div>
+
+           </ion-col>
+
+        </ion-row>
+      </ion-col>
+
+     <!--  <ion-col size="12" style="align-items: center;justify-content: center;display: flex;text-align: center;">
+        <ion-badge  color='{{project.user.isDesactivated? "success" : "primary"}}' >{{project.user.isDesactivated? "Desactivé" : "Activé"}} </ion-badge>
+        <i class="pi pi-spin pi-spinner" *ngIf="desactive" ></i>
+
+
+      </ion-col> -->
+
+    </ion-row>
+
+    <ion-row class="marginTop">
+
+      <div style="display: flex; justify-content: center; width: 100%;" >
+        <a href="mailto:{{project?.user?.email}}" class="btn btn-primary" style="text-decoration: none;">
+          <ion-button style="width: 150px;" mode="ios" expand="block" size="small" fill="outline" color="medium">
+            <ion-text color="dark">Contacter</ion-text>
+          </ion-button>
+
+
+        </a>
+          <ion-button *ngIf="role === 'true'" (click)="changeState(project.user._id, project.user.isDesactivated)" color="danger" style="width: 150px;" mode="ios" expand="block" size="small" >
+            <ion-text >{{project.user.isDesactivated? "Ré-activer" : "Désactiver"}}</ion-text>
+          </ion-button>
+
+
+
+      </div>
+    </ion-row>
+
+    <!-- <ion-row class="images" >
+      <ion-segment mode="md" [value]="buttonValue">
+        <ion-segment-button [value]="item?.value" *ngFor="let item of buttonItems">
+          <ion-icon [name]="buttonValue === item?.value ? item?.icon : item?.icon + '-outline'"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-row> -->
+  </ion-grid>
+  <ion-grid class="ion-no-margin ion-no-padding">
+    <ion-row class="ion-no-margin ion-no-padding">
+      <ion-col class="ion-no-margin ion-no-padding" style="padding-left: 4px;padding-right: 4px;margin-bottom: 4px;" size="6" size-md="6" size-lg="3" *ngFor="let object of project?.objects" >
+        <ion-card  class="ion-no-margin"  >
+
+          <div style="cursor: pointer; padding-bottom: 10px;" routerLink="/home/details/{{object._id}}">
+
+            <div
+            [style.background-image]="'url('+object.picture+')'"
+            [style.background-size]="'200px 100%'"
+            [style.background-repeat]="'no-repeat'"
+            style="height: 200px;"
+            >
+
+            </div>
+
+
+            <ion-card-content class="ion-no.-margin ion-no-padding" style="padding: 5px 3px;">
+              <div style="font-weight: 600; font-size: 14px; padding-bottom: 5px;">
+                {{object.name}}
+              </div>
+
+              {{object?.description?.length > 25 ? object?.description.slice(0, 25)+"..." : object?.description}}
+            </ion-card-content>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: center;margin-bottom: 5px;"               (click)="changeStateObj(object)"
+          >
+            <ion-badge
+              style="padding: 6px 10px;"
+              slot="start" color='{{object.isFound? "success" : "primary"}}'
+            >
+              {{object.isFound? "Trouvé" : "Non trouvé"}}
+            </ion-badge>
+          </div>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+

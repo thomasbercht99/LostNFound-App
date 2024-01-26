@@ -1,0 +1,97 @@
+<ion-header >
+  <ion-toolbar >
+    <div style="display: flex;justify-content: center;align-items: center;">
+        Ajouter un object
+    </div>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="status === 'false'" scrollY="true" class="ion-padding">
+<div style="width: 100%;height: 300px;" (click)="takePicture()">
+<img width="100%" height="100%" src="{{form.picture}}"  alt="">
+
+</div>
+<p-progressBar mode="indeterminate" *ngIf="submitted" [style]="{ height: '6px' }"></p-progressBar>
+
+<div class="form-input">
+  <ion-item class="ion-no-padding">
+    <ion-input
+      label="Noms de l'object"
+      class="custom-input ion-no-padding"
+      label-placement="stacked"
+      [(ngModel)]="form.name"
+      required="true"
+      #noms="ngModel"
+      [ngClass]="{'ng-dirty': (noms.invalid && formsubmitted) || (noms.dirty && noms.invalid)}"
+    >
+
+    </ion-input>
+
+  </ion-item>
+  <small class="erreur" *ngIf="(noms.invalid && formsubmitted )|| (noms.dirty && noms.invalid)">Le noms  est requis.</small>
+
+  <!-- <div *ngIf="form.name.touched && form.name.invalid" class="erreur">
+    <div *ngIf="form.name?.errors.required">
+
+    </div>
+  </div> -->
+</div>
+<div class="form-input">
+  <ion-item class="ion-no-padding">
+    <ion-textarea label="Description" labelPlacement="stacked" placeholder=" "
+    [(ngModel)]="form.description"
+    required="true"
+    rows="5"
+    #description="ngModel"
+      [ngClass]="{'ng-dirty': (description.invalid && formsubmitted) || (description.dirty && description.invalid)}"
+    > 
+
+  </ion-textarea> 
+  </ion-item>
+  <small class="erreur" *ngIf="(description.invalid && formsubmitted )|| (description.dirty && description.invalid)"> La description  est requise.</small>
+
+  <!-- <div *ngIf="form.description.touched && form.description.invalid" class="erreur">
+    <div *ngIf="form.description?.errors.required">
+
+    </div>
+  </div> -->
+</div>
+
+<div class="form-input" style="margin-top: 10px;">
+  <ion-item class="ion-no-padding" (click)="selectCart()">
+    <ion-icon
+    slot="start"
+    name="location-outline"
+    aria-hidden="true"
+  ></ion-icon>
+    <div style="display: block;">
+      <ion-label>Ajouter un lieu </ion-label>
+      <ion-label>{{geo}}</ion-label>
+    </div>
+    <ion-icon slot="end" aria-hidden="true" name="chevron-forward-outline"></ion-icon>
+
+  </ion-item>
+</div>
+<ion-row>
+  <ion-col size="12" style="margin-top: 20px;">
+    <ion-button expand="block" (click)="save()">Partager
+      <!-- <i class="pi pi-spin pi-spinner" *ngIf="submitted" ></i> -->
+    </ion-button>
+
+  </ion-col>
+
+</ion-row>
+
+</ion-content>
+
+<div  *ngIf="status === 'true'" style="width: 100%;height: 100%;justify-content: center;align-items: center;display: flex;">
+  <div style="display: block;">
+    <img src="../../../assets/attention.png" alt="">
+    <div style="text-align: center;">
+      Votre compte a été desctivé bien vouloir contacter un administrateur pour activer
+    </div>
+  </div>
+
+</div>
+
