@@ -7,7 +7,7 @@ Nous soulignons l'importance du bon sens et de la bonne foi des utilisateurs pou
 
 ## Prérequis
 
-Avant de commencer, assurez-vous d'avoir installé [Node.js](https://nodejs.org/) et [npm](https://www.npmjs.com/) sur votre système.
+Avant de commencer, assurez-vous d'avoir installé [Node.js](https://nodejs.org/) (minimum nodejs 18) et [npm](https://www.npmjs.com/) sur votre système.
 
 ## Installation
 
