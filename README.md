@@ -69,3 +69,8 @@ ionic build --prod
 
 Suivez les instructions spécifiques de déploiement de votre plateforme cible pour déployer l'application.
 
+## Documentation de l'API
+
+L'application LostNFound repose sur une API dédiée, également développée dans le cadre de ce projet. Pour une compréhension approfondie de l'API, de ses fonctionnalités, de ses endpoints et de son utilisation, veuillez consulter la documentation complète disponible sur GitHub. Cette documentation détaillée vous fournira toutes les informations nécessaires pour comprendre l'interaction entre l'application et l'API, ainsi que des instructions pour une éventuelle personnalisation ou extension de leurs fonctionnalités. 
+Accédez à la documentation de l'API en suivant ce lien : `https://github.com/Dzenetahamzabegovic/LostNFound`
+
