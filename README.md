@@ -39,7 +39,7 @@ Suivez ces étapes pour configurer l'environnement de développement pour votre 
 
 1. **Configurer l'URL de l'API**
 
-   Ouvrez le fichier `src/environments/environment.ts` et fournissez l'URL de votre API :
+   Ouvrez les fichiers `src/environments/environment.ts` et `src/environments/environment.prod.ts` et fournissez l'URL de votre API :
    ```typescript
    export const environment = {
      production: false,
@@ -47,7 +47,7 @@ Suivez ces étapes pour configurer l'environnement de développement pour votre 
    };
    ```
 
-   Remplacez `VOTRE_URL_API_ICI` par l'URL réelle de votre API.
+   Remplacez `VOTRE_URL_API_ICI` par l'URL de votre serveur API.
 
 ## Lancement de l'Application
 
